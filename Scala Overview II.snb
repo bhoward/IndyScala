@@ -1,0 +1,129 @@
+{
+  "metadata" : {
+    "name" : "Scala Overview II",
+    "user_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "auto_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customArgs" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "id" : "419C2490111949B7805D321D6B7A0661"
+    },
+    "cell_type" : "markdown",
+    "source" : "# Scala Is... a Better Java"
+  }, {
+    "metadata" : {
+      "id" : "E6F7E05CB2134F668C58B81B9DFEA948"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Simplified Class Definition"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "B1CD9989F84B4CDA9983389F64FED051"
+    },
+    "cell_type" : "code",
+    "source" : "/* Java:\npublic class Foo {\n  private int n;\n  private String s;\n  \n  public Foo(int n, String s) {\n    this.n = n;\n    this.s = s;\n  }\n  \n  public Foo(int n) {\n    this(n, \"<Nothing>\")\n  }\n  \n  public int getN() {\n    return n;\n  }\n  \n  public String getS() {\n    return s;\n  }\n  \n  public void setS(String s) {\n    this.s = s;\n  }\n  \n  public String toString() {\n    return \"Foo(\" + n + \", \" + s + \")\";\n  }\n}\n*/\n\nclass Foo(val n: Int, var s: String) {\n  def this(n: Int) = this(n, \"<Nothing>\")\n  \n  override def toString(): String = s\"Foo($n, $s)\"\n}\n\nval x = new Foo(42)\nprintln(x)\nx.s = \"Hello\"\nprintln(x)\n\nprintln(x.n)\nx.s_=(\"Goodbye\")\nprintln(x.s)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "Foo(42, <Nothing>)\nFoo(42, Hello)\n42\nGoodbye\ndefined class Foo\nx: Foo = Foo(42, Goodbye)\nx.s: String = Goodbye\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 35
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "F764181F1E3D42AE8AAE5D432A71D2CD"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Objects (Singletons) and Companions (Static)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "371306993A6E45DC8FB264BDC79E77E1"
+    },
+    "cell_type" : "code",
+    "source" : "import java.io.File\n\nobject Global {\n  val VERSION = \"1.0\"\n  var workingDirectory: File = new File(\"\")\n  def findFile(name: String): File = new File(workingDirectory, name)\n}\n\nclass Foo(val n: Int, var s: String) {\n  def this(n: Int) = this(n, \"<Nothing>\")\n  \n  override def toString(): String = s\"Foo($n, $s)\"\n}\n\nobject Foo {\n  def apply(n: Int, s: String): Foo = new Foo(n, s)\n  \n  def fromFile(file: File): Foo = {\n    import java.util.Scanner\n    \n    val in = new Scanner(file)\n    try {\n      val n = in.nextInt()\n      val s = in.next()\n      new Foo(n, s)\n    } finally {\n      in.close()\n    }\n  }\n}\n\nGlobal.workingDirectory = new File(\"/tmp\")\nval out = new java.io.PrintWriter(Global.findFile(\"demo.txt\"))\nout.println(\"23 skidoo\")\nout.close()\nFoo.fromFile(Global.findFile(\"demo.txt\"))",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import java.io.File\ndefined object Global\ndefined class Foo\ndefined object Foo\nGlobal.workingDirectory: java.io.File = /tmp\nout: java.io.PrintWriter = java.io.PrintWriter@1de1e154\nres72: Foo = Foo(23, skidoo)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "Foo(23, skidoo)"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 42
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "729EE8CEC2114758B34B0A770F24849A"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Traits for Mixin Inheritance"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "1313321FDC934A8B878FC492BE57D3F4"
+    },
+    "cell_type" : "code",
+    "source" : "trait Ordered[T] {\n  def compare(that: T): Int\n  \n  def <(that: T): Boolean = (this compare that) < 0\n  def >(that: T): Boolean = (this compare that) > 0\n  def <=(that: T): Boolean = (this compare that) <= 0\n  def >=(that: T): Boolean = (this compare that) >= 0\n}\n\ncase class Person(first: String, last: String) extends Ordered[Person] {\n  def compare(that: Person): Int = {\n    val c = last compare that.last\n    if (c != 0) c else first compare that.first\n  }\n}\n\nPerson(\"Brian\", \"Howard\") < Person(\"Eleanor\", \"Howard\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined trait Ordered\ndefined class Person\nres7: Boolean = true\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "true"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "20E28C7FE99B4ABA80FA2F05AFDD17C8"
+    },
+    "cell_type" : "code",
+    "source" : "trait Renderable {\n  def render(width: Int): String = {\n    val s = this.toString\n    if (s.length <= width) {\n      val pad = width - s.length\n      \"_\"*(pad/2) + s + \"_\"*(pad - pad/2)\n    } else {\n      s.substring(0, width)\n    }\n  }\n}\n\ncase class Person(first: String, last: String) extends Ordered[Person] with Renderable {\n  def compare(that: Person): Int = {\n    val c = last compare that.last\n    if (c != 0) c else first compare that.first\n  }\n  \n  override def toString: String = s\"$first $last\"\n}\n\nPerson(\"Brian\", \"Howard\").render(20)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined trait Renderable\ndefined class Person\nres9: String = ____Brian Howard____\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "____Brian Howard____"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  } ],
+  "nbformat" : 4
+}

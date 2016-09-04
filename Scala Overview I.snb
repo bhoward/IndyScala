@@ -1,0 +1,220 @@
+{
+  "metadata" : {
+    "name" : "Scala Overview I",
+    "user_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "auto_save_timestamp" : "1969-12-31T19:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customArgs" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "id" : "C66796EA9E154C5DBF9512CFEA480266"
+    },
+    "cell_type" : "markdown",
+    "source" : "# Scala is... Just Like Java"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "286D374BF1F94E1A84F1ED0998C6DE51"
+    },
+    "cell_type" : "code",
+    "source" : "while (Math.random() < 0.9) {\n  println(\"Still going!\");\n}\nprintln(\"Done!\");",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "Still going!\nStill going!\nStill going!\nStill going!\nDone!\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 24
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "DBEE137561FC48B287C44B4C3A8BC3D1"
+    },
+    "cell_type" : "markdown",
+    "source" : "## Except for Trivia:"
+  }, {
+    "metadata" : {
+      "id" : "94C3FBB892134BDD8B62F160BAAB60A1"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Variable Declarations are Backwards:"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "3AB6715445FB43F19C7E941B906A4D30"
+    },
+    "cell_type" : "code",
+    "source" : "// final int N = 100;\nval N: Int = 10;\n\n// int i = 1;\nvar i: Int = 1;\n\nwhile (i <= N) {\n  println(\"Step \" + i);\n  i = i + 1; // or i += 1, but not i++\n}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "Step 1\nStep 2\nStep 3\nStep 4\nStep 5\nStep 6\nStep 7\nStep 8\nStep 9\nStep 10\nN: Int = 10\ni: Int = 11\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 25
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "BDFF4F51D7E946BC9AE6AF7C3CD4AAB8"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Optional Semicolons and Types:"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "48F142C217BD458D8ADA12978E2D2176"
+    },
+    "cell_type" : "code",
+    "source" : "val N = 10\nvar i = 1\nwhile (i <= N) {\n  println(\"Step \" + i)\n  i = i + 1\n}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "Step 1\nStep 2\nStep 3\nStep 4\nStep 5\nStep 6\nStep 7\nStep 8\nStep 9\nStep 10\nN: Int = 10\ni: Int = 11\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 26
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "A3E011DAC20941A0A574C137251B4793"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Unified Operators and Methods:"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "3EF8FDC8BF534AB988116BBA6E47671D"
+    },
+    "cell_type" : "code",
+    "source" : "println( 2 + 3 )\nprintln( 2.+(3) )\nprintln( 2.max(3) )\nprintln( 2 max 3 )",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "5\n5\n3\n3\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 27
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "234DCFB1399E4AEF9A1740BC7314FC31"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Function-syntax for Arrays:"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab1696631984-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "262BCA1E9BA145719EEDF0291587410A"
+    },
+    "cell_type" : "code",
+    "source" : "val fib = new Array[Int](10)\nfib(0) = 0\nfib(1) = 1\nvar i = 2\nwhile (i < fib.size) {\n  fib(i) = fib(i-1) + fib(i-2)\n  i += 1\n}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "fib: Array[Int] = Array(0, 1, 1, 2, 3, 5, 8, 13, 21, 34)\ni: Int = 10\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 28
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "C0BE76DB3FA94E1B84E02305048DC04D"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Generalized For-loops (but more later):"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "1DC86D96CB2D4EE1917A1F1257E76CA9"
+    },
+    "cell_type" : "code",
+    "source" : "for (i <- 1 to 10) {\n  println(s\"Step $i\")\n}\nfor (x <- fib) {  // compare to: for (int x : fib)\n  println(\"#\" * x)\n}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "Step 1\nStep 2\nStep 3\nStep 4\nStep 5\nStep 6\nStep 7\nStep 8\nStep 9\nStep 10\n\n#\n#\n##\n###\n#####\n########\n#############\n#####################\n##################################\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 31
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "C1C2EADB9F8041F28FBE6273C1462E82"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Additional Syntactic Sugar (thanks to library support):"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "6131084FB40649B8867F990FA50B44CC"
+    },
+    "cell_type" : "code",
+    "source" : "// pairs\nval x = (\"Brian\", 51)\nval y = \"Alice\" -> 11\nval (name1, age1) = x\nval (name2, age2) = y\n\n// maps\nval family = Map(\"Brian\" -> 51, \"Eleanor\" -> 50, \"George\" -> 19, \"Susanna\" -> 16, \"Alice\" -> 11)\nval brianAge = family(\"Brian\")  // short for family.apply(\"Brian\")\n// val sallyAge = family(\"Sally\")\n\n// strings\nval multi =\n\"\"\"object Demo {\n  |  def main(Array[String] args): Unit = {\n  |    println(\"Hello World!\")\n  |  }\n  |}\"\"\".stripMargin\n\ndef ageMessage(name: String): String = s\"$name's age is ${family(name)}.\"\nageMessage(\"Brian\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "x: (String, Int) = (Brian,51)\ny: (String, Int) = (Alice,11)\nname1: String = Brian\nage1: Int = 51\nname2: String = Alice\nage2: Int = 11\nfamily: scala.collection.immutable.Map[String,Int] = Map(Susanna -> 16, Brian -> 51, Eleanor -> 50, George -> 19, Alice -> 11)\nbrianAge: Int = 51\nmulti: String =\nobject Demo {\n  def main(Array[String] args): Unit = {\n    println(\"Hello World!\")\n  }\n}\nageMessage: (name: String)String\nres52: String = Brian's age is 51.\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "Brian's age is 51."
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 30
+    } ]
+  } ],
+  "nbformat" : 4
+}
