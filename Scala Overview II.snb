@@ -36,18 +36,18 @@
       "id" : "B1CD9989F84B4CDA9983389F64FED051"
     },
     "cell_type" : "code",
-    "source" : "/* Java:\npublic class Foo {\n  private int n;\n  private String s;\n  \n  public Foo(int n, String s) {\n    this.n = n;\n    this.s = s;\n  }\n  \n  public Foo(int n) {\n    this(n, \"<Nothing>\")\n  }\n  \n  public int getN() {\n    return n;\n  }\n  \n  public String getS() {\n    return s;\n  }\n  \n  public void setS(String s) {\n    this.s = s;\n  }\n  \n  public String toString() {\n    return \"Foo(\" + n + \", \" + s + \")\";\n  }\n}\n*/\n\nclass Foo(val n: Int, var s: String) {\n  def this(n: Int) = this(n, \"<Nothing>\")\n  \n  override def toString(): String = s\"Foo($n, $s)\"\n}\n\nval x = new Foo(42)\nprintln(x)\nx.s = \"Hello\"\nprintln(x)\n\nprintln(x.n)\nx.s_=(\"Goodbye\")\nprintln(x.s)",
+    "source" : "/* Java:\npublic class Foo {\n  private char c;\n  private int n;\n  private String s;\n  \n  public Foo(char c, int n, String s) {\n    this.c = c;\n    this.n = n;\n    this.s = s;\n  }\n  \n  public Foo(char c, int n) {\n    this(c, n, \"<Nothing>\");\n  }\n  \n  public Foo(int n, String s) {\n    this('-', n, s);\n  }\n  \n  public Foo(int n) {\n    this('-', n, \"<Nothing>\");\n  }\n  \n  public int getN() {\n    return n;\n  }\n  \n  public String getS() {\n    return s;\n  }\n  \n  public void setS(String s) {\n    this.s = s;\n  }\n  \n  public String toString() {\n    return \"Foo(\" + n + c + s + \")\";\n  }\n}\n*/\n\nclass Foo(c: Char, val n: Int, var s: String = \"<Nothing>\") {\n  def this(n: Int, s: String) = this('-', n, s)\n  def this(n: Int) = this('-', n)\n  \n  override def toString(): String = s\"Foo($n$c$s)\"\n}\n\nval x = new Foo(42)\nprintln(x)\nx.s = \"Hello\"\nprintln(x)\n\nprintln(x.n)\nx.s_=(\"Goodbye\")\nprintln(x.s)",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "Foo(42, <Nothing>)\nFoo(42, Hello)\n42\nGoodbye\ndefined class Foo\nx: Foo = Foo(42, Goodbye)\nx.s: String = Goodbye\n"
+      "text" : "Foo(42-<Nothing>)\nFoo(42-Hello)\n42\nGoodbye\ndefined class Foo\nx: Foo = Foo(42-Goodbye)\nx.s: String = Goodbye\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 35
+      "execution_count" : 3
     } ]
   }, {
     "metadata" : {
@@ -63,18 +63,72 @@
       "id" : "371306993A6E45DC8FB264BDC79E77E1"
     },
     "cell_type" : "code",
-    "source" : "import java.io.File\n\nobject Global {\n  val VERSION = \"1.0\"\n  var workingDirectory: File = new File(\"\")\n  def findFile(name: String): File = new File(workingDirectory, name)\n}\n\nclass Foo(val n: Int, var s: String) {\n  def this(n: Int) = this(n, \"<Nothing>\")\n  \n  override def toString(): String = s\"Foo($n, $s)\"\n}\n\nobject Foo {\n  def apply(n: Int, s: String): Foo = new Foo(n, s)\n  \n  def fromFile(file: File): Foo = {\n    import java.util.Scanner\n    \n    val in = new Scanner(file)\n    try {\n      val n = in.nextInt()\n      val s = in.next()\n      new Foo(n, s)\n    } finally {\n      in.close()\n    }\n  }\n}\n\nGlobal.workingDirectory = new File(\"/tmp\")\nval out = new java.io.PrintWriter(Global.findFile(\"demo.txt\"))\nout.println(\"23 skidoo\")\nout.close()\nFoo.fromFile(Global.findFile(\"demo.txt\"))",
+    "source" : "import java.io.File\n\nobject Global {\n  val VERSION = \"1.0\"\n  var workingDirectory: File = new File(\"\")\n  def findFile(name: String): File = new File(workingDirectory, name)\n}\n\nclass Foo(val n: Int, var s: String) {\n  override def toString(): String = s\"Foo($n, $s)\"\n}\n\nobject Foo {\n  def apply(n: Int, s: String): Foo = new Foo(n, s)\n  \n  def fromFile(file: File): Foo = {\n    import java.util.Scanner\n    \n    val in = new Scanner(file)\n    try {\n      val n = in.nextInt()\n      val s = in.next()\n      new Foo(n, s)\n    } finally {\n      in.close()\n    }\n  }\n}\n\nGlobal.workingDirectory = new File(\"/tmp\")\nval out = new java.io.PrintWriter(Global.findFile(\"demo.txt\"))\nout.println(\"23 skidoo\")\nout.close()\nFoo.fromFile(Global.findFile(\"demo.txt\"))",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "import java.io.File\ndefined object Global\ndefined class Foo\ndefined object Foo\nGlobal.workingDirectory: java.io.File = /tmp\nout: java.io.PrintWriter = java.io.PrintWriter@1de1e154\nres72: Foo = Foo(23, skidoo)\n"
+      "text" : "import java.io.File\ndefined object Global\ndefined class Foo\ndefined object Foo\nGlobal.workingDirectory: java.io.File = /tmp\nout: java.io.PrintWriter = java.io.PrintWriter@2a80afff\nres9: Foo = Foo(23, skidoo)\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : "Foo(23, skidoo)"
       },
       "output_type" : "execute_result",
-      "execution_count" : 42
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "03AEBB7E41C04FB3B100C5ABEF24670F"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Multiple, Repeated, Named, and Default Parameters"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "08ED3DC8C6DD4994AB3274242F83F3EC"
+    },
+    "cell_type" : "code",
+    "source" : "def thing(args: String*)(sep: String = \",\", start: String = \"\", end: String = \"\"): String = args.mkString(start, sep, end)\n\nprintln( thing(\"foo\", \"bar\", \"baz\")() )\nprintln( thing(\"foo\", \"bar\", \"baz\")(\";\") )\nprintln( thing(\"foo\", \"bar\", \"baz\")(start = \"<\", end = \">\") )\nprintln( thing(\"foo\", \"bar\", \"baz\")(start = \"<\", end = \">\", sep = \" - \") )\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "foo,bar,baz\nfoo;bar;baz\n<foo,bar,baz>\n<foo - bar - baz>\nthing: (args: String*)(sep: String, start: String, end: String)String\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 11
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "CE553E379E474CC782F7C5B6FCFC8667"
+    },
+    "cell_type" : "markdown",
+    "source" : "* By-Name Parameters and Lazy Values"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "96D6A7E22E9547B38BCF7BC30853BABE"
+    },
+    "cell_type" : "code",
+    "source" : "def f(x: => String): Unit = {\n  println(\"f\")\n  println(x)\n  println(x)\n}\n\ndef g1(x: => String): Unit = {\n  println(\"g1\")\n  val y = x\n}\n\ndef g2(x: => String): Unit = {\n  println(\"g2\")\n  lazy val y = x\n}\n\ndef h1(x: => String): Unit = {\n  println(\"h1\")\n  val y = x\n  println(y)\n  println(y)\n}\n\ndef h2(x: => String): Unit = {\n  println(\"h2\")\n  lazy val y = x\n  println(y)\n  println(y)\n}\n\nf{ println(\"Thinking...\"); \"Result\" }\ng1{ println(\"Thinking...\"); \"Result\" }\ng2{ println(\"Thinking...\"); \"Result\" }\nh1{ println(\"Thinking...\"); \"Result\" }\nh2{ println(\"Thinking...\"); \"Result\" }\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "f\nThinking...\nResult\nThinking...\nResult\ng1\nThinking...\ng2\nh1\nThinking...\nResult\nResult\nh2\nThinking...\nResult\nResult\nf: (x: => String)Unit\ng1: (x: => String)Unit\ng2: (x: => String)Unit\nh1: (x: => String)Unit\nh2: (x: => String)Unit\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 14
     } ]
   }, {
     "metadata" : {
@@ -123,6 +177,33 @@
       },
       "output_type" : "execute_result",
       "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "342CACBCDC11407C8D6D3D43B12C4C25"
+    },
+    "cell_type" : "markdown",
+    "source" : "* Type Parameters (with Declaration-Site Variance)"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "776677144E854CCD978AE524E28BBD2F"
+    },
+    "cell_type" : "code",
+    "source" : "trait Stack[+T] {\n  def top: Option[T]\n  def pop: Stack[T]\n  def push[U >: T](x: U): Stack[U] = new Stack.StackNode[U](x, this)\n}\n\nobject Stack {\n  def apply[T](args: T*): Stack[T] = args.foldLeft[Stack[T]](EmptyStack)(_ push _)\n  \n  private object EmptyStack extends Stack[Nothing] {\n    def top = None\n    def pop = this\n  }\n  \n  private class StackNode[T](val first: T, val rest: Stack[T]) extends Stack[T] {\n    def top = Some(first)\n    def pop = rest\n  }\n}\n\nval s = Stack(1, 2, 3)\nval t = s push \"Hello\"\n\nval x = s.top\nval y = t.pop.top",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined trait Stack\ndefined object Stack\ns: Stack[Int] = Stack$StackNode@7a42fed7\nt: Stack[Any] = Stack$StackNode@5688872a\nx: Option[Int] = Some(3)\ny: Option[Any] = Some(3)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 24
     } ]
   } ],
   "nbformat" : 4

@@ -179,14 +179,7 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "Step 1\nStep 2\nStep 3\nStep 4\nStep 5\nStep 6\nStep 7\nStep 8\nStep 9\nStep 10\n\n#\n#\n##\n###\n#####\n########\n#############\n#####################\n##################################\n"
-    }, {
-      "metadata" : { },
-      "data" : {
-        "text/html" : ""
-      },
-      "output_type" : "execute_result",
-      "execution_count" : 31
+      "text" : "<console>:58: error: not found: value fib\n       for (x <- fib) {  // compare to: for (int x : fib)\n                 ^\n"
     } ]
   }, {
     "metadata" : {
