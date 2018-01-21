@@ -32,13 +32,12 @@ object MergeSort {
         val (s1, s2) = split(xs)
         (Cons(x1, s1), Cons(x2, s2))
     }
-  } ensuring { result => result match {
-    case (left, right) =>
-      left.content ++ right.content == list.content &&
-      left.size + right.size == list.size &&
-      left.size > 0 &&
-      right.size > 0
-    }
+  } ensuring { result =>
+    val (left, right) = result
+    left.content ++ right.content == list.content &&
+    left.size + right.size == list.size &&
+    left.size > 0 &&
+    right.size > 0
   }
 
   def mergeSort(list: List[Int]): List[Int] = {
