@@ -2,17 +2,12 @@ import stainless.lang._
 import stainless.collection._
 
 object MergeSort {
-  def contents[T](list: List[T]): Bag[T] = list match {
-    case Nil() => Bag.empty[T]
-    case Cons(x, xs) => contents(xs) + x
-  }
-
-  def isSorted(list: List[BigInt]): Boolean = list match {
+  def isSorted(list: List[Int]): Boolean = list match {
     case Cons(x1, tail @ Cons(x2, _)) => x1 <= x2 && isSorted(tail)
     case _ => true
   }
 
-  def merge(l1: List[BigInt], l2: List[BigInt]): List[BigInt] = {
+  def merge(l1: List[Int], l2: List[Int]): List[Int] = {
     require(isSorted(l1) && isSorted(l2))
 
     (l1, l2) match {
@@ -24,11 +19,11 @@ object MergeSort {
     }
   } ensuring { result =>
     isSorted(result) &&
-    contents(result) == contents(l1) ++ contents(l2) &&
+    result.content == l1.content ++ l2.content &&
     result.size == l1.size + l2.size
   }
 
-  def split(list: List[BigInt]): (List[BigInt], List[BigInt]) = {
+  def split(list: List[Int]): (List[Int], List[Int]) = {
     require(list.size > 1)
     list match {
       case Cons(x, xs) if xs.size <= 2 => // BTH: change 2 to 1 to catch a bug
@@ -39,14 +34,14 @@ object MergeSort {
     }
   } ensuring { result => result match {
     case (left, right) =>
-      contents(left) ++ contents(right) == contents(list) &&
+      left.content ++ right.content == list.content &&
       left.size + right.size == list.size &&
       left.size > 0 &&
       right.size > 0
     }
   }
 
-  def mergeSort(list: List[BigInt]): List[BigInt] = {
+  def mergeSort(list: List[Int]): List[Int] = {
     list match {
       case Cons(_, Cons(_, _)) =>
         val (s1, s2) = split(list)
@@ -55,7 +50,7 @@ object MergeSort {
     }
   } ensuring { result =>
     isSorted(result) &&
-    contents(result) == contents(list) &&
+    result.content == list.content &&
     result.size == list.size
   }
 }

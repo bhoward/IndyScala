@@ -2,18 +2,6 @@ import stainless.lang._
 import stainless.collection._
 
 object InsertionSort {
-  def size[T](l: List[T]): BigInt = {
-    l match {
-      case Nil() => BigInt(0)
-      case Cons(_, xs) => 1 + size(xs)
-    }
-  } ensuring(_ >= 0)
-
-  def contents[T](l: List[T]): Bag[T] = l match {
-    case Nil() => Bag.empty
-    case Cons(x, xs) => contents(xs) + x
-  }
-
   def isSorted(l: List[Int]): Boolean = l match {
     case Nil() => true
     case Cons(x, Nil()) => true
@@ -27,9 +15,9 @@ object InsertionSort {
       case Cons(x, xs) => if (x <= e) Cons(x, insert(e, xs)) else Cons(e, l)
     }
   } ensuring {result =>
-    contents(result) == contents(l) + e &&
-      isSorted(result) &&
-      size(result) == size(l) + 1
+    isSorted(result) &&
+    result.content == l.content + e &&
+    result.size == l.size + 1
   }
 
   def sort(l: List[Int]): List[Int] = {
@@ -38,8 +26,8 @@ object InsertionSort {
       case Cons(x, xs) => insert(x, sort(xs))
     }
   } ensuring {result =>
-    contents(result) == contents(l) &&
-      isSorted(result) &&
-      size(result) == size(l)
+    isSorted(result) &&
+    result.content == l.content &&
+    result.size == l.size
   }
 }

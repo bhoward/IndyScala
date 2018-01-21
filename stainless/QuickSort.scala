@@ -3,14 +3,14 @@ import stainless.lang._
 import stainless.collection._
 
 object QuickSort {
-  def isSorted(list: List[BigInt]): Boolean = {
+  def isSorted(list: List[Int]): Boolean = {
     list match {
       case Cons(x, xs @ Cons(y, _)) => x <= y && isSorted(xs)
       case _ => true
     }
   }
 
-  def appendSorted(l1: List[BigInt], l2: List[BigInt]): List[BigInt] = {
+  def appendSorted(l1: List[Int], l2: List[Int]): List[Int] = {
     require(isSorted(l1) && isSorted(l2) && (l1.isEmpty || l2.isEmpty || l1.last <= l2.head))
 
     l1 match {
@@ -22,11 +22,11 @@ object QuickSort {
     result.content == l1.content ++ l2.content
   }
 
-  def quickSort(list: List[BigInt]): List[BigInt] = {
+  def quickSort(list: List[Int]): List[Int] = {
     decreases(list.size, BigInt(0))
 
     list match {
-      case Nil() => Nil[BigInt]()
+      case Nil() => Nil[Int]()
       case Cons(x, xs) => par(x, Nil(), Nil(), xs)
     }
   } ensuring { result =>
@@ -34,10 +34,10 @@ object QuickSort {
     result.content == list.content
   }
 
-  def par(x: BigInt, l: List[BigInt], r: List[BigInt], ls: List[BigInt]): List[BigInt] = {
+  def par(x: Int, l: List[Int], r: List[Int], ls: List[Int]): List[Int] = {
     require(
-      forall((a: BigInt) => l.contains(a) ==> a <= x) &&
-      forall((a: BigInt) => r.contains(a) ==> x < a)
+      forall((a: Int) => l.contains(a) ==> a <= x) &&
+      forall((a: Int) => r.contains(a) ==> x < a)
     )
     decreases(l.size + r.size + ls.size, ls.size + 1)
 
