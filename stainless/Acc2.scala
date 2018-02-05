@@ -5,9 +5,9 @@ import stainless.lang._
 
 object Acc {
 
-  case class Acc(checking : Int, savings : Int)
+  case class Acc(checking : BigInt, savings : BigInt)
 
-  def putAside(x: Int, a: Acc): Acc = {
+  def putAside(x: BigInt, a: Acc): Acc = {
     require (x > 0 && notRed(a) && a.checking >= x)
     Acc(a.checking - x, a.savings + x)
   } ensuring {
