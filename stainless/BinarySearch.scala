@@ -1,6 +1,8 @@
 import stainless.lang._
 
 object BinarySearch {
+  def exists[T](p: T => Boolean): Boolean = !forall((t: T) => !p(t))
+
   def isSorted(arr: Array[Int]): Boolean = {
     forall((i: Int, j: Int) => (0 <= i && i < j && j < arr.length) ==> arr(i) <= arr(j))
   }
@@ -19,6 +21,6 @@ object BinarySearch {
       false
     }
   } ensuring { result =>
-    forall((i: Int) => (lo <= i && i <= hi) ==> (arr(i) == x ==> result))
+    result == exists((i: Int) => lo <= i && i <= hi && arr(i) == x)
   }
 }
